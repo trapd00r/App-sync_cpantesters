@@ -1,0 +1,24 @@
+---
+global:
+  name: App-sync_cpantesters
+releases:
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - set the version to 0.03
+      - 'fixed bug in how directories are deleted - before, the whole base dir was deleted'
+    date: 2007-11-24T16:39:38Z
+    tags: []
+    version: 0.03
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - set the version to 0.02
+      - forgot to enable the code that does the deletions at the end
+    date: 2007-11-24T15:09:29Z
+    tags: []
+    version: 0.02
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - original version
+    date: 2007-11-23T14:01:21Z
+    tags: []
+    version: 0.01
