@@ -1,0 +1,10 @@
+---
+global:
+  name: App-sync_cpantesters
+releases:
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - original version
+    date: 2007-11-23T14:01:21Z
+    tags: []
+    version: 0.01
