@@ -1,0 +1,9 @@
+steps = ApplyYAMLChangeLogVersion, Manifest, DistTest, Commit, Tag, MakeDist, MyUploadCPAN, DistClean, Twitter
+
+svk.tagpattern = //local/hanekomu-cpan/tags/App-sync_cpantesters-%v
+
+twitter.config = ~/.twitterrc
+twitter.distname = App-sync_cpantesters
+twitter.message = shipped %d %v - soon at %u
+
+
