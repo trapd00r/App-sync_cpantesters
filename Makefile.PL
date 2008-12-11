@@ -11,11 +11,8 @@ requires 'HTML::TreeBuilder';
 requires 'LWP::UserAgent::ProgressBar';
 requires 'Web::Scraper';
 
-recommends 'Test::Pod';
-recommends 'Test::Pod::Coverage';
-
 test_requires 'Test::More' => '0.70';
-test_requires 'Test::Compile';
+extra_tests;
 
 install_script glob('bin/*');
 
