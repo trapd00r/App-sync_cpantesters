@@ -16,11 +16,11 @@ __END__
 
 =head1 NAME
 
-App::sync_cpantesters - Sync CPAN testers failure reports to local dir
+App::sync_cpantesters - Sync CPAN testers failure reports to local directories
 
 =head1 SYNOPSIS
 
-None.
+    # sync_cpantesters -a MARCEL -d ~/dev/cpan-testers
 
 =head1 DESCRIPTION
 
