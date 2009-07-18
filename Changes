@@ -1,9 +1,10 @@
 Revision history for Perl extension App-sync_cpantesters
 
-0.05  Thu Jul 25 15:27:43 CEST 2008 (Marcel Gruenauer <marcel@cpan.org>)
+0.05 Sat Jul 18 20:07:13 CEST 2009 (Marcel Gruenauer <marcel@cpan.org>)
      - Changed dist style and Changes back to standard. People didn't like it -
        the nail that sticks out gets hammered down.
      - Added standard test files; this will also help with CPANTS.
+     - Changed scraper to match new HTML layout
 
 0.04  Thu, 29 May 2008 12:00:00 -0000 (Marcel Gruenauer <marcel@cpan.org>)
      - set the version to 0.04

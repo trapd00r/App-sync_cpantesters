@@ -65,10 +65,10 @@ $base_dir = abs_path($base_dir) unless
     File::Spec->file_name_is_absolute($base_dir);
 
 my $scraper = scraper {
-    process '//div[@class="headers"]', 'dist[]' => scraper {
-        process '//b', name => 'TEXT';
-        process '//li[./span[@class="FAIL"]]', 'fail[]' => scraper {
-            process '//a', url => '@href', id => 'TEXT';
+    process '//div[contains(@class, "off")]', 'dist[]' => scraper {
+        process '//h2/a[@name]', name => '@name';
+        process '//tr[./td[@class="FAIL"]]', 'fail[]' => scraper {
+            process '//td/a', url => '@href', id => 'TEXT';
         };
     };
 };
