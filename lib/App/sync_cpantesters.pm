@@ -2,6 +2,7 @@ package App::sync_cpantesters;
 
 use warnings;
 use strict;
+use 5.006;
 
 
 our $VERSION = '0.05';
@@ -50,12 +51,9 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-
 =cut
-
-
