@@ -1,5 +1,4 @@
 #!/usr/bin/env perl
-
 use warnings;
 use strict;
 use Cwd 'abs_path';
@@ -12,10 +11,7 @@ use HTML::TreeBuilder;
 use LWP::UserAgent::ProgressBar;
 use Pod::Usage;
 use Web::Scraper;
-
-
 our $VERSION = '0.05';
-
 
 sub usage ($;$$) {
     my ($message, $exitval, $verbose) = @_;
@@ -23,131 +19,107 @@ sub usage ($;$$) {
     # make sure there's exactly one newline;
     1 while chomp $message;
     $message .= "\n";
-
     $exitval ||= 1;
     $verbose ||= 2;
-
-    pod2usage({
-        -message => $message,
-        -exitval => $exitval,
-        -verbose => $verbose,
-        -output  => \*STDERR
-    });
+    pod2usage(
+        {   -message => $message,
+            -exitval => $exitval,
+            -verbose => $verbose,
+            -output  => \*STDERR
+        }
+    );
 }
 
-
 sub get {
-    my $url = shift;
+    my $url      = shift;
     my $response = LWP::UserAgent::ProgressBar->new->get_with_progress($url);
     $response->is_success or die "couldn't get $url\n";
     $response->content;
 }
-
-
-our $uri      : Getopt(uri|u=s);
-our $author   : Getopt(author|a=s);
+our $uri : Getopt(uri|u=s);
+our $author : Getopt(author|a=s);
 our $base_dir : Getopt(dir|d=s);
-our $verbose  : Getopt(verbose|v);
-our $help     : Getopt(help|h);
-
+our $verbose : Getopt(verbose|v);
+our $help : Getopt(help|h);
 pod2usage(-verbose => 2, -exitval => 0) if $help || Getopt::Attribute->error;
-
 usage "need --basedir\n" unless defined $base_dir;
-usage "can't have both --uri and --author\n" if
-    defined($uri) && defined $author;
-
+usage "can't have both --uri and --author\n"
+  if defined($uri) && defined $author;
 $uri = sprintf 'http://cpantesters.perl.org/author/%s.html', $author
-    if defined $author;
+  if defined $author;
 usage "need --uri or --author\n" unless defined $uri;
 
 # make base_dir absolute
-$base_dir = abs_path($base_dir) unless
-    File::Spec->file_name_is_absolute($base_dir);
-
+$base_dir = abs_path($base_dir)
+  unless File::Spec->file_name_is_absolute($base_dir);
 my $scraper = scraper {
     process '//div[contains(@class, "off")]', 'dist[]' => scraper {
-        process '//h2/a[@name]', name => '@name';
+        process '//h2/a[@name]',             name     => '@name';
         process '//tr[./td[@class="FAIL"]]', 'fail[]' => scraper {
             process '//td/a', url => '@href', id => 'TEXT';
         };
     };
 };
-
 $verbose && print "Downloading $uri...\n";
 my $html = get($uri);
-
 $verbose && print "Scraping information...\n";
 my $result = $scraper->scrape(\$html);
-
 $verbose && print "Creating directory $base_dir...\n";
 mkpath($base_dir);
-
 my $formatter = HTML::FormatText->new(leftmargin => 0, rightmargin => 50);
-
-my %report;  # lookup hash to see which files and dirs should be there
-
+my %report;    # lookup hash to see which files and dirs should be there
 $verbose && print "Start iterating through results...\n";
+
 for my $dist (@{ $result->{dist} || [] }) {
     ref $dist eq 'HASH' or die 'expected a HASH reference';
     $verbose && print "Processing results for $dist->{name}...\n";
-
     unless (exists $dist->{fail}) {
         $verbose && print "No failures, skipping.\n\n";
         next;
     }
-
-    ref $dist->{fail} eq 'ARRAY' or
-        die "expected 'fail' to be an ARRAY reference";
-   
+    ref $dist->{fail} eq 'ARRAY'
+      or die "expected 'fail' to be an ARRAY reference";
     (my $dir = $dist->{name}) =~ s/\s+/-/g;
     $dir = "$base_dir/$dir";
-
     $verbose && print "Creating directory $dir...\n";
-    mkpath($dir); 
+    mkpath($dir);
     $report{dir}{$dir}++;
-
     for my $fail (@{ $dist->{fail} || [] }) {
         $verbose && print "Failure id $fail->{id}\n";
         my $filename = "$dir/$fail->{id}";
-
         if (-e $filename) {
             $verbose && print "File $filename exists, skipping.\n";
             $report{file}{$filename}++;
             next;
         }
-
         $verbose && print "Downloading $fail->{url}...\n";
         my $content = get($fail->{url});
-
-        open my $fh, '>', $filename or
-            die "can't open $filename for writing: $!\n";
+        open my $fh, '>', $filename
+          or die "can't open $filename for writing: $!\n";
         print $fh $formatter->format(
-            HTML::TreeBuilder->new_from_content($content)
-        );
+            HTML::TreeBuilder->new_from_content($content));
         close $fh or die "can't close $filename: $!\n";
-
         $report{file}{$filename}++;
     }
-
     $verbose && print "\n";
 }
-
 $verbose && print "Deleting files other than the current failure reports...\n";
-find(sub {
-    if (-d) {
-        return if /^\.+$/;
-        return if $report{dir}{ $File::Find::name };
-        $verbose && print "Deleting directory $File::Find::name\n";
-        rmtree($File::Find::name);
-        $File::Find::prune = 1;
-    } elsif (-f) {
-        return if $report{file}{ $File::Find::name };
-        $verbose && print "Deleting file $File::Find::name\n";
-        unlink $File::Find::name;
-    }
-}, $base_dir);
-
-
+find(
+    sub {
+        if (-d) {
+            return if /^\.+$/;
+            return if $report{dir}{$File::Find::name};
+            $verbose && print "Deleting directory $File::Find::name\n";
+            rmtree($File::Find::name);
+            $File::Find::prune = 1;
+        } elsif (-f) {
+            return if $report{file}{$File::Find::name};
+            $verbose && print "Deleting file $File::Find::name\n";
+            unlink $File::Find::name;
+        }
+    },
+    $base_dir
+);
 __END__
 
 =head1 NAME

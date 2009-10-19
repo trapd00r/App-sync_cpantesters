@@ -1,0 +1,27 @@
+This is the Perl distribution App-sync_cpantesters.
+
+## Installation
+
+App-sync_cpantesters installation is straightforward. If your CPAN shell is set
+up, you should just be able to do
+
+    % cpan App::sync_cpantesters
+
+Download it, unpack it, then build it as per the usual:
+
+    % perl Makefile.PL
+    % make && make test
+
+Then install it:
+
+    % make install
+
+## Documentation
+
+App-sync_cpantesters documentation is available as in POD. So you can do:
+
+    % perldoc App::sync_cpantesters
+
+to read the documentation online with your favorite pager.
+
+Marcel Gruenauer

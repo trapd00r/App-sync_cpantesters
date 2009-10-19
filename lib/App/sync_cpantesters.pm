@@ -1,19 +1,10 @@
 package App::sync_cpantesters;
-
+use 5.006;
 use warnings;
 use strict;
-use 5.006;
-
-
 our $VERSION = '0.05';
-
-
 1;
-
-
 __END__
-
-
 
 =head1 NAME
 
@@ -43,7 +34,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/App-sync_cpantesters/>.
 
 =head1 AUTHORS
 
