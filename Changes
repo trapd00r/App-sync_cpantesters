@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.100710  2010-03-12 14:17:51 Europe/Vienna
     - adapted scraper (etc.) to new HTML contents
     - converted the distribution to Dist::Zilla-style
     - moved the code to App::perlzonji; bin/sync_cpantesters is just a thin
