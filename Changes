@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.100830  2010-03-24 22:52:50 Europe/Vienna
     - added --ignore option to filter out reports for unwanted distributions
 
 1.100710  2010-03-12 14:17:51 Europe/Vienna
