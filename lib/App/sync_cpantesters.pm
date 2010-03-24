@@ -46,6 +46,7 @@ sub run {
     our $author : Getopt(author|a=s);
     our $base_dir : Getopt(dir|d=s);
     our $verbose : Getopt(verbose|v);
+    our $ignore : Getopt(ignore|i=s);
     our $help : Getopt(help|h);
     pod2usage(-verbose => 2, -exitval => 0) if $help || Getopt::Attribute->error;
     usage "need --basedir\n" unless defined $base_dir;
@@ -74,7 +75,12 @@ sub run {
     my %report;    # lookup hash to see which files and dirs should be there
     $verbose && print "Start iterating through results...\n";
 
-    for my $dist (@{ $result->{dist} || [] }) {
+    my @dist = @{ $result->{dist} || [] };
+    if ($ignore) {
+        @dist = grep { $_->{name} !~ /$ignore/o } @dist;
+    }
+
+    for my $dist (@dist) {
         ref $dist eq 'HASH' or die 'expected a HASH reference';
         $verbose && print "Processing results for $dist->{name}...\n";
         unless (exists $dist->{fail}) {
@@ -192,6 +198,13 @@ You have to use exactly one of C<--author> or C<--uri>.
 
 The directory you want to download the reports to. This can be a relative or
 absolute path. This argument is mandatory.
+
+=item C<--ignore> <regex>, C<-i> <regex>
+
+If this argument is given, then every distribution whose name matches this
+regular expression is ignored. You might use this when you have deprecated
+distributions that you don't care about anymore, but the reports are still
+there.
 
 =item C<--verbose>, C<-v>
 

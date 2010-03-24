@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+    - added --ignore option to filter out reports for unwanted distributions
 
 1.100710  2010-03-12 14:17:51 Europe/Vienna
     - adapted scraper (etc.) to new HTML contents
