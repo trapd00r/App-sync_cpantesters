@@ -5,6 +5,7 @@ use strict;
 package App::sync_cpantesters;
 # ABSTRACT: Sync CPAN testers failure reports to local directories
 
+use open qw(:utf8);
 use Cwd 'abs_path';
 use File::Find;
 use File::Path;
