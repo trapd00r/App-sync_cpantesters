@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use warnings;
 use strict;
+# PODNAME: sync_cpantesters
 # ABSTRACT: Sync CPAN testers failure reports to local directories
 use App::sync_cpantesters;
 App::sync_cpantesters->run;
