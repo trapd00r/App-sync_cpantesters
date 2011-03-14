@@ -16,7 +16,6 @@ use HTML::TreeBuilder;
 use LWP::UserAgent::ProgressBar;
 use Pod::Usage;
 use Web::Scraper;
-our $VERSION = '0.05';
 
 sub usage ($;$$) {
     my ($message, $exitval, $verbose) = @_;
