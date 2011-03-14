@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+1.110730  2011-03-14 10:49:24 Europe/Vienna
     - get rid of "Wide character in print at ..." (thanks trapd00r)
 
 1.100830  2010-03-24 22:52:50 Europe/Vienna
